@@ -2,7 +2,7 @@
 {
     public class Destination
     {
-        public string Name { get; set; }
-        public decimal Demand { get; set; }
+        public string? Name { get; set; }
+        public double Demand { get; set; }
     }
 }

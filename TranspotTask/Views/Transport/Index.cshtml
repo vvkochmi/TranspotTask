@@ -1,0 +1,56 @@
+﻿@using TranspotTask.Models
+@model TransportData
+
+@{
+    ViewBag.Title = "Транспортная таблица";
+}
+
+<h2>Транспортная таблица</h2>
+
+<!-- Формы для добавления пунктов -->
+<h3>Добавить пункт отправления</h3>
+@using (Html.BeginForm("AddSource", "Transport", FormMethod.Post))
+{
+    <input type="text" name="name" placeholder="Название пункта отправления" />
+    <input type="number" name="supply" placeholder="Запасы пункта отправления" />
+    <button type="submit">Добавить</button>
+}
+
+<h3>Добавить пункт назначения</h3>
+@using (Html.BeginForm("AddDestination", "Transport", FormMethod.Post))
+{
+    <input type="text" name="name" placeholder="Название пункта назначения" />
+    <input type="number" name="demand" placeholder="Потребность пункта назначения" />
+    <button type="submit">Добавить</button>
+}
+
+@using (Html.BeginForm("SetCost", "Transport", FormMethod.Post))
+{
+    <table border="1" style="border-collapse: collapse; margin-top:20px" class="table">
+        <thead>
+            <tr>
+                <th>Пункты отправления/назначения</th>
+                @foreach (var item in Model.Destinations)
+                {
+                    <th>@item.Name (@item.Demand)</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Sources.Count; i++)
+            {
+                <tr>
+                    <td>@Model.Sources[i].Name (@Model.Sources[i].Supply)</td>
+                    @for (int j = 0; j < Model.Destinations.Count; j++)
+                    {
+                        <td>
+                            <input type="number" name="costs[@i][@j]" value="@(Model.Costs.TryGetValue((Model.Sources[i], Model.Destinations[j]), out var c) ? c : 0)" style="width:80px;" />
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit">Сохранить</button>
+}
+<input type="submit" value="Решить"/>
