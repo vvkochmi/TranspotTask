@@ -52,6 +52,9 @@ namespace TranspotTask.Controllers
                     }
                 }
             }
+
+            new TransportDecision().TaskSolution(table);
+
             return RedirectToAction("Index");
         }
     }

@@ -43,9 +43,18 @@
                     <td>@Model.Sources[i].Name (@Model.Sources[i].Supply)</td>
                     @for (int j = 0; j < Model.Destinations.Count; j++)
                     {
-                        <td>
-                            <input type="number" name="costs[@i][@j]" value="@(Model.Costs.TryGetValue((Model.Sources[i], Model.Destinations[j]), out var c) ? c : 0)" style="width:80px;" />
-                        </td>
+                        if (Model.Costs.Any(c => c.Value.Count != null))
+                        {
+                            <td>
+                                @(Model.Costs.TryGetValue((Model.Sources[i], Model.Destinations[j]), out var c) ? c.Count != null ? $"{c.Price}({c.Count})" : $"{c.Price}" : "")
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <input type="number" name="costs[@i][@j]" value="0" style="width:80px;" />
+                            </td>
+                        }
                     }
                 </tr>
             }

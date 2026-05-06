@@ -12,15 +12,16 @@ namespace TranspotTask.Services
             {
                 Sources = new List<Source>()
                 {
-                    new Source() {Name = "A1", Supply = 200},
-                    new Source() {Name = "A2", Supply = 300},
-                    new Source() {Name = "A3", Supply = 100},
+                    new Source() {Name = "A1", Supply = 90},
+                    new Source() {Name = "A2", Supply = 30},
+                    new Source() {Name = "A3", Supply = 40},
                 },
                 Destinations = new List<Destination>()
                 {
-                    new Destination(){ Name ="B1", Demand = 200},
-                    new Destination(){ Name ="B2", Demand = 200},
-                    new Destination(){ Name ="B3", Demand = 500},
+                    new Destination(){ Name ="B1", Demand = 70},
+                    new Destination(){ Name ="B2", Demand = 30},
+                    new Destination(){ Name ="B3", Demand = 20},
+                    new Destination(){ Name ="B3", Demand = 40}
                 }
             };
         }
@@ -56,12 +57,12 @@ namespace TranspotTask.Services
 
         public void SetCost(Source source, Destination destination, double cost)
         {
-            data.Costs[(source, destination)] = cost;
+            data.Costs[(source, destination)] = new Cost() { Price = cost };
         }
 
         public double GetCost(Source source, Destination destination)
         {
-            return data.Costs.TryGetValue((source, destination), out double cost) ? cost : 0;
+            return data.Costs.TryGetValue((source, destination), out var cost) ? cost.Price : 0;
         }
     }
 }
